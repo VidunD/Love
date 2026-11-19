@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffeff6" />
+  <title>A Little Question for You 💗</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; overflow: hidden; display: grid; place-items: center;
+      padding: 22px; font-family: 'DM Sans', sans-serif; color: #59334d;
+      background: radial-gradient(circle at 15% 15%, #fff 0, transparent 32%),
+                  linear-gradient(135deg, #ffe8f1 0%, #f8e7ff 52%, #e9e5ff 100%);
+    }
+    .hearts { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
+    .heart { position: absolute; bottom: -50px; color: #f48bb8; opacity: .55; animation: floatUp linear infinite; }
+    @keyframes floatUp { to { transform: translateY(-115vh) rotate(25deg); opacity: 0; } }
+    .card {
+      width: min(100%, 520px); padding: 48px 28px 42px; text-align: center; position: relative;
+      border: 1px solid rgba(255,255,255,.85); border-radius: 30px;
+      background: rgba(255,255,255,.78); backdrop-filter: blur(14px);
+      box-shadow: 0 24px 70px rgba(147, 91, 135, .16);
+      animation: appear .8s cubic-bezier(.2,.8,.2,1) both;
+    }
+    @keyframes appear { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+    .emoji { font-size: 58px; display: block; margin-bottom: 18px; animation: pulse 1.8s ease-in-out infinite; }
+    @keyframes pulse { 50% { transform: scale(1.12); } }
+    .eyebrow { color: #d36b9c; font-size: 12px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; }
+    h1 { font-family: 'Pacifico', cursive; font-size: clamp(29px, 7vw, 42px); line-height: 1.35; font-weight: 400; margin: 15px 0 12px; color: #9b4f83; }
+    p { color: #896b81; line-height: 1.7; font-size: 15px; margin: 0 auto; max-width: 360px; }
+    .buttons { display: flex; justify-content: center; align-items: center; gap: 18px; margin: 34px auto 0; min-height: 58px; }
+    button { border: 0; border-radius: 999px; padding: 15px 34px; font: 700 16px 'DM Sans', sans-serif; cursor: pointer; transition: transform .2s, box-shadow .2s; touch-action: manipulation; }
+    #yes { color: white; background: linear-gradient(135deg, #f17eae, #c477d9); box-shadow: 0 9px 22px rgba(213, 112, 172, .3); }
+    #yes:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 13px 26px rgba(213, 112, 172, .4); }
+    #no { color: #9b6687; background: #f8eaf3; border: 1px solid #f0d8e8; }
+    .tiny { margin-top: 24px; font-size: 12px; color: #b28ba6; }
+    .success { display: none; }
+    .success h1 { font-size: clamp(34px, 8vw, 48px); }
+    .success .emoji { animation: celebrate .65s ease-in-out infinite alternate; }
+    @keyframes celebrate { to { transform: rotate(14deg) scale(1.15); } }
+    .confetti { position: fixed; top: -20px; pointer-events: none; animation: fall 3s linear forwards; }
+    @keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+    @media (max-width: 420px) { .card { padding: 40px 20px 34px; } .buttons { gap: 12px; } button { padding: 14px 27px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts" aria-hidden="true"></div>
+  <main class="card">
+    <section id="question">
+      <span class="emoji">🥹💗</span>
+      <div class="eyebrow">I have a little question...</div>
+      <h1>Would you like to go on a day out with me?</h1>
+      <p>Just you, me, a little adventure and some lovely memories. What do you say? ✨</p>
+      <div class="buttons" id="buttons">
+        <button id="yes" type="button">Yes! 💖</button>
+        <button id="no" type="button">No 🙈</button>
+      </div>
+      <div class="tiny">Choose wisely... hehe 🤭</div>
+    </section>
+    <section class="success" id="success" aria-live="polite">
+      <span class="emoji">🥰💐</span>
+      <div class="eyebrow">You just made my day!</div>
+      <h1>Yaaay! It's a date! 💗</h1>
+      <p>I can't wait to spend a lovely day with you. Get ready for some unforgettable memories! ✨</p>
+      <div class="tiny">See you soon! ❤️</div>
+    </section>
+  </main>
+  <script>
+    const hearts = document.getElementById('hearts');
+    const heartSymbols = ['♥', '♡', '💕', '✧'];
+    for (let i = 0; i < 24; i++) {
+      const heart = document.createElement('span');
+      heart.className = 'heart';
+      heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.fontSize = (14 + Math.random() * 22) + 'px';
+      heart.style.animationDuration = (7 + Math.random() * 10) + 's';
+      heart.style.animationDelay = (-Math.random() * 15) + 's';
+      hearts.appendChild(heart);
+    }
+
+    const no = document.getElementById('no');
+    const buttons = document.getElementById('buttons');
+    let escapeCount = 0;
+    function moveNo() {
+      escapeCount++;
+      const rect = no.getBoundingClientRect();
+      const margin = 12;
+      const maxX = Math.max(margin, window.innerWidth - rect.width - margin);
+      const maxY = Math.max(margin, window.innerHeight - rect.height - margin);
+      let x, y;
+      do {
+        x = margin + Math.random() * (maxX - margin);
+        y = margin + Math.random() * (maxY - margin);
+      } while (Math.hypot(x - rect.left, y - rect.top) < 150 && escapeCount < 8);
+      no.style.position = 'fixed';
+      no.style.left = x + 'px';
+      no.style.top = y + 'px';
+      no.style.zIndex = '5';
+      no.style.transition = 'left .18s ease, top .18s ease';
+      no.textContent = escapeCount > 3 ? 'Nope! 😜' : 'No 🙈';
+    }
+    no.addEventListener('pointerenter', moveNo);
+    no.addEventListener('pointerdown', (event) => { event.preventDefault(); moveNo(); });
+    no.addEventListener('click', (event) => { event.preventDefault(); moveNo(); });
+    no.addEventListener('focus', moveNo);
+
+    document.getElementById('yes').addEventListener('click', () => {
+      document.getElementById('question').style.display = 'none';
+      document.getElementById('success').style.display = 'block';
+      no.style.display = 'none';
+      for (let i = 0; i < 65; i++) {
+        const piece = document.createElement('span');
+        piece.className = 'confetti';
+        piece.textContent = ['💖', '💕', '🌸', '✨', '💗'][Math.floor(Math.random() * 5)];
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.animationDelay = Math.random() * 1.2 + 's';
+        piece.style.fontSize = (16 + Math.random() * 18) + 'px';
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 4500);
+      }
+    });
+  </script>
+</body>
+</html>
