@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#080808" />
   <meta name="description" content="A private little invitation for Mainka." />
-  <title>One Night, Just Us 🖤</title>
+  <title>One Day Out, Just Us 🖤</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
@@ -75,22 +75,22 @@
     <section id="question">
       <div class="mark" aria-hidden="true">🖤</div>
       <div class="eyebrow">A little invitation for Mainka</div>
-      <h1>How about a <em>night away</em>, just us?</h1>
+      <h1>How about a <em>day out</em>, just us?</h1>
       <p>
-        I want to take you out on a special little escape — a lovely hotel, no rush,
-        just the two of us. A little romance, undeniable chemistry, and maybe a
-        playful, daring side to the night… only what we both feel comfortable with.
+        I want to take you out for a special little day — just the two of us, no rush.
+        A little romance, undeniable chemistry, and maybe a playful, daring side
+        to the day… only what we both feel comfortable with.
       </p>
       <div class="details">
         <span class="detail">✦ Thursday, November 26</span>
-        <span class="detail">✦ A hotel night</span>
+        <span class="detail">✦ A special day out</span>
         <span class="detail">✦ Just us</span>
       </div>
       <div class="buttons">
         <button id="yes" type="button">I'd love that 🖤</button>
         <button id="no" type="button">Not this time</button>
       </div>
-      <div class="note">A little bold, a little wild — always with mutual comfort, trust and consent. No pressure, sweetheart.</div>
+      <div class="note">A little bold, a little wild — always with mutual comfort, trust and consent. No pressure, sweetheart.<br><button id="declineLink" type="button" style="min-width:0;margin-top:10px;padding:4px 8px;background:transparent;border:0;color:#9f9296;font-size:11px;text-decoration:underline;">I’d rather not — no pressure</button></div>
     </section>
     <section class="success" id="success" aria-live="polite">
       <div class="mark" aria-hidden="true">🥀</div>
@@ -126,28 +126,34 @@
     const noButton = document.getElementById('no');
     let dodgeCount = 0;
     const dodge = (event) => {
-      if (dodgeCount >= 5) return;
+      if (dodgeCount >= 10) return;
       if (event.cancelable) event.preventDefault();
       const mobile = window.matchMedia('(max-width: 600px)').matches || navigator.maxTouchPoints > 0;
-      const maxX = mobile ? 42 : 135;
-      const maxY = mobile ? 86 : 58;
+      const maxX = mobile ? 48 : 145;
+      const maxY = mobile ? 96 : 66;
       const dx = Math.round((Math.random() * 2 - 1) * maxX);
       const dy = Math.round((Math.random() * 2 - 1) * maxY);
       noButton.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
       dodgeCount++;
-      if (dodgeCount === 5) {
+      if (dodgeCount === 10) {
         noButton.style.transform = 'translate(0,0)';
-        noButton.textContent = 'Not this time — you can say no';
-        noButton.title = 'Tap to politely decline';
+        noButton.textContent = 'I’d love that 🖤';
+        noButton.dataset.changedToYes = 'true';
+        noButton.title = 'I’d love that';
       }
     };
     noButton.addEventListener('pointerenter', dodge);
     noButton.addEventListener('touchstart', dodge, { passive:false });
-    noButton.addEventListener('click',()=>{
+    const showDeclined = () => {
       document.getElementById('question').style.display='none';
       document.getElementById('declined').style.display='block';
       document.getElementById('footer').style.display='none';
+    };
+    noButton.addEventListener('click',()=>{
+      if (noButton.dataset.changedToYes === 'true') document.getElementById('yes').click();
+      else showDeclined();
     });
+    document.getElementById('declineLink').addEventListener('click', showDeclined);
   </script>
 </body>
 </html>
