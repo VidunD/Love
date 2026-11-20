@@ -3,127 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#ffeff6" />
-  <title>A Little Coffee Date for Mainka ☕💗</title>
+  <meta name="theme-color" content="#080808" />
+  <meta name="description" content="A private little invitation for Mainka." />
+  <title>One Night, Just Us 🖤</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
+    :root { color-scheme: dark; --bg:#080808; --panel:#121212; --red:#b51f38; --rose:#e35a70; --muted:#aaa1a3; }
+    * { box-sizing:border-box; }
     body {
-      margin: 0; min-height: 100vh; overflow: hidden; display: grid; place-items: center;
-      padding: 22px; font-family: 'DM Sans', sans-serif; color: #59334d;
-      background: radial-gradient(circle at 15% 15%, #fff 0, transparent 32%),
-                  linear-gradient(135deg, #ffe8f1 0%, #f8e7ff 52%, #e9e5ff 100%);
+      margin:0; min-height:100vh; display:grid; place-items:center; padding:24px;
+      overflow-x:hidden; font-family:'DM Sans',sans-serif; color:#f8f2f2;
+      background: radial-gradient(ellipse at 50% 0%, #321018 0%, transparent 48%),
+                  radial-gradient(circle at 90% 90%, #1b1014 0%, transparent 35%), var(--bg);
     }
-    .hearts { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
-    .heart { position: absolute; bottom: -50px; color: #f48bb8; opacity: .55; animation: floatUp linear infinite; }
-    @keyframes floatUp { to { transform: translateY(-115vh) rotate(25deg); opacity: 0; } }
+    .glow { position:fixed; width:340px; height:340px; border-radius:50%; background:#9d1830; filter:blur(120px); opacity:.16; pointer-events:none; }
+    .glow.one { top:-190px; left:-100px; } .glow.two { right:-170px; bottom:-190px; }
+    .sparks { position:fixed; inset:0; overflow:hidden; pointer-events:none; }
+    .spark { position:absolute; bottom:-40px; color:#c83a53; opacity:.4; animation:rise linear infinite; }
+    @keyframes rise { to { transform:translateY(-115vh) rotate(35deg); opacity:0; } }
     .card {
-      width: min(100%, 520px); padding: 48px 28px 42px; text-align: center; position: relative;
-      border: 1px solid rgba(255,255,255,.85); border-radius: 30px;
-      background: rgba(255,255,255,.78); backdrop-filter: blur(14px);
-      box-shadow: 0 24px 70px rgba(147, 91, 135, .16);
-      animation: appear .8s cubic-bezier(.2,.8,.2,1) both;
+      width:min(100%,560px); position:relative; padding:48px 34px 38px; text-align:center;
+      border:1px solid rgba(226,82,105,.22); border-radius:28px;
+      background:linear-gradient(145deg,rgba(28,25,26,.96),rgba(13,13,14,.97));
+      box-shadow:0 28px 100px rgba(0,0,0,.65), 0 0 55px rgba(174,31,55,.10);
+      animation:enter .8s cubic-bezier(.2,.8,.2,1) both;
     }
-    @keyframes appear { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
-    .emoji { font-size: 58px; display: block; margin-bottom: 18px; animation: pulse 1.8s ease-in-out infinite; }
-    @keyframes pulse { 50% { transform: scale(1.12); } }
-    .eyebrow { color: #d36b9c; font-size: 12px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; }
-    h1 { font-family: 'DM Sans', sans-serif; font-size: clamp(28px, 6.5vw, 40px); line-height: 1.3; font-weight: 800; letter-spacing: -1px; margin: 15px 0 12px; color: #9b4f83; }
-    p { color: #896b81; line-height: 1.7; font-size: 15px; margin: 0 auto; max-width: 360px; }
-    .buttons { display: flex; justify-content: center; align-items: center; gap: 18px; margin: 34px auto 0; min-height: 58px; }
-    button { border: 0; border-radius: 999px; padding: 15px 34px; font: 700 16px 'DM Sans', sans-serif; cursor: pointer; transition: transform .2s, box-shadow .2s; touch-action: manipulation; }
-    #yes { color: white; background: linear-gradient(135deg, #f17eae, #c477d9); box-shadow: 0 9px 22px rgba(213, 112, 172, .3); }
-    #yes:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 13px 26px rgba(213, 112, 172, .4); }
-    #no { color: #9b6687; background: #f8eaf3; border: 1px solid #f0d8e8; }
-    .tiny { margin-top: 24px; font-size: 12px; color: #b28ba6; }
-    .success { display: none; }
-    .success h1 { font-size: clamp(34px, 8vw, 48px); }
-    .success .emoji { animation: celebrate .65s ease-in-out infinite alternate; }
-    @keyframes celebrate { to { transform: rotate(14deg) scale(1.15); } }
-    .confetti { position: fixed; top: -20px; pointer-events: none; animation: fall 3s linear forwards; }
-    @keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-    @media (max-width: 420px) { .card { padding: 40px 20px 34px; } .buttons { gap: 12px; } button { padding: 14px 27px; } }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+    @keyframes enter { from { opacity:0; transform:translateY(20px) scale(.98); } to { opacity:1; transform:none; } }
+    .mark { width:66px; height:66px; margin:0 auto 22px; display:grid; place-items:center; border-radius:50%;
+      color:#ff8295; font-size:30px; background:rgba(181,31,56,.13); border:1px solid rgba(227,90,112,.32);
+      box-shadow:0 0 32px rgba(181,31,56,.16); }
+    .eyebrow { color:#e16b7e; font-size:11px; font-weight:800; letter-spacing:4px; text-transform:uppercase; }
+    h1 { margin:17px 0 16px; font:700 clamp(32px,7vw,48px)/1.16 'Playfair Display',serif; letter-spacing:-.6px; }
+    h1 em { color:#ed7185; font-weight:600; }
+    p { max-width:420px; margin:0 auto; color:#c4babc; font-size:15px; line-height:1.85; }
+    .details { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin:27px auto 0; }
+    .detail { padding:10px 15px; border:1px solid rgba(227,90,112,.23); border-radius:999px; color:#f0c6cc; background:rgba(181,31,56,.09); font-size:12px; font-weight:700; letter-spacing:.3px; }
+    .buttons { display:flex; justify-content:center; flex-wrap:wrap; gap:13px; margin:32px auto 0; }
+    button { min-width:150px; border:1px solid transparent; border-radius:999px; padding:14px 24px; font:700 14px 'DM Sans',sans-serif; cursor:pointer; transition:transform .2s,box-shadow .2s,background .2s; }
+    button:focus-visible { outline:2px solid #ff9aaa; outline-offset:4px; }
+    #yes { color:white; background:linear-gradient(135deg,#c52a45,#8e142c); box-shadow:0 9px 26px rgba(181,31,56,.28); }
+    #yes:hover { transform:translateY(-2px); box-shadow:0 13px 30px rgba(181,31,56,.4); }
+    #no { color:#d7c9cc; background:#211b1d; border-color:#493037; }
+    #no:hover { background:#2a2023; }
+    .note { margin-top:24px; color:#8f8588; font-size:11px; line-height:1.7; }
+    .success,.declined { display:none; }
+    .success h1,.declined h1 { font-size:clamp(34px,8vw,50px); }
+    .success .mark { animation:heartbeat 1.3s ease-in-out infinite; }
+    @keyframes heartbeat { 50% { transform:scale(1.08); } }
+    .footer { margin-top:28px; color:#6f6568; font-size:10px; letter-spacing:2px; text-transform:uppercase; }
+    @media(max-width:440px) { .card { padding:40px 22px 32px; } .details { gap:8px; } .detail { padding:9px 12px; } button { width:100%; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; } }
   </style>
 </head>
 <body>
-  <div class="hearts" id="hearts" aria-hidden="true"></div>
+  <div class="glow one"></div><div class="glow two"></div>
+  <div class="sparks" id="sparks" aria-hidden="true"></div>
   <main class="card">
     <section id="question">
-      <span class="emoji">☕❤️</span>
-      <div class="eyebrow">A little question for Mainka...</div>
-      <h1>Mainka, would you like to go for a coffee with me tomorrow?</h1>
-      <p>Just you, me, a cup of coffee and a little time together. That sounds lovely, right? ☕✨</p>
-      <div class="buttons" id="buttons">
-        <button id="yes" type="button">Yes! 💖</button>
-        <button id="no" type="button">No 🙈</button>
+      <div class="mark" aria-hidden="true">🖤</div>
+      <div class="eyebrow">A little invitation for Mainka</div>
+      <h1>How about a <em>night away</em>, just us?</h1>
+      <p>
+        I want to take you out on a special little escape — a lovely hotel, no rush,
+        just the two of us. A little romance, undeniable chemistry, and maybe a
+        playful, daring side to the night… only what we both feel comfortable with.
+      </p>
+      <div class="details">
+        <span class="detail">✦ Thursday, November 26</span>
+        <span class="detail">✦ A hotel night</span>
+        <span class="detail">✦ Just us</span>
       </div>
-      <div class="tiny">Choose wisely... hehe 🤭</div>
+      <div class="buttons">
+        <button id="yes" type="button">I'd love that 🖤</button>
+        <button id="no" type="button">Not this time</button>
+      </div>
+      <div class="note">A little bold, a little wild — always with mutual comfort, trust and consent. No pressure, sweetheart.</div>
     </section>
     <section class="success" id="success" aria-live="polite">
-      <span class="emoji">☕🌷</span>
-      <div class="eyebrow">You just made my day!</div>
-      <h1>Yaaay, Mainka! It's a coffee date! 💗</h1>
-      <p>I can't wait to have coffee with you tomorrow. Looking forward to seeing you! ☕🥰</p>
-      <div class="tiny">Tomorrow, coffee is on my mind! ❤️</div>
+      <div class="mark" aria-hidden="true">🥀</div>
+      <div class="eyebrow">Now that's a date</div>
+      <h1>It's a <em>yes</em>, Mainka. 🖤</h1>
+      <p>November 26 is ours. I can't wait to spend a beautiful night with you — close, carefree, and completely in our own little world.</p>
+      <div class="details"><span class="detail">✦ Thursday, November 26</span><span class="detail">✦ Our little escape</span></div>
+      <div class="footer">Only us · Only if we both want it</div>
     </section>
+    <section class="declined" id="declined" aria-live="polite">
+      <div class="mark" aria-hidden="true">🌙</div>
+      <div class="eyebrow">No pressure at all</div>
+      <h1>That's completely <em>okay</em>.</h1>
+      <p>Thank you for being honest. Your comfort matters most — we can always make another plan another time. 🖤</p>
+    </section>
+    <div class="footer" id="footer">A private little invitation · Made with care</div>
   </main>
   <script>
-    const hearts = document.getElementById('hearts');
-    const heartSymbols = ['♥', '♡', '💕', '✧'];
-    for (let i = 0; i < 24; i++) {
-      const heart = document.createElement('span');
-      heart.className = 'heart';
-      heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-      heart.style.left = Math.random() * 100 + '%';
-      heart.style.fontSize = (14 + Math.random() * 22) + 'px';
-      heart.style.animationDuration = (7 + Math.random() * 10) + 's';
-      heart.style.animationDelay = (-Math.random() * 15) + 's';
-      hearts.appendChild(heart);
+    const sparks = document.getElementById('sparks');
+    const symbols = ['✦','♡','♥','✧'];
+    for (let i=0;i<22;i++) {
+      const el=document.createElement('span'); el.className='spark';
+      el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+      el.style.left=Math.random()*100+'%'; el.style.fontSize=(12+Math.random()*17)+'px';
+      el.style.animationDuration=(9+Math.random()*10)+'s'; el.style.animationDelay=(-Math.random()*16)+'s';
+      sparks.appendChild(el);
     }
-
-    const no = document.getElementById('no');
-    const buttons = document.getElementById('buttons');
-    let escapeCount = 0;
-    function moveNo() {
-      escapeCount++;
-      const rect = no.getBoundingClientRect();
-      const margin = 12;
-      const maxX = Math.max(margin, window.innerWidth - rect.width - margin);
-      const maxY = Math.max(margin, window.innerHeight - rect.height - margin);
-      let x, y;
-      do {
-        x = margin + Math.random() * (maxX - margin);
-        y = margin + Math.random() * (maxY - margin);
-      } while (Math.hypot(x - rect.left, y - rect.top) < 150 && escapeCount < 8);
-      no.style.position = 'fixed';
-      no.style.left = x + 'px';
-      no.style.top = y + 'px';
-      no.style.zIndex = '5';
-      no.style.transition = 'left .18s ease, top .18s ease';
-      no.textContent = escapeCount > 3 ? 'Nope! 😜' : 'No 🙈';
-    }
-    no.addEventListener('pointerenter', moveNo);
-    no.addEventListener('pointerdown', (event) => { event.preventDefault(); moveNo(); });
-    no.addEventListener('click', (event) => { event.preventDefault(); moveNo(); });
-    no.addEventListener('focus', moveNo);
-
-    document.getElementById('yes').addEventListener('click', () => {
-      document.getElementById('question').style.display = 'none';
-      document.getElementById('success').style.display = 'block';
-      no.style.display = 'none';
-      for (let i = 0; i < 65; i++) {
-        const piece = document.createElement('span');
-        piece.className = 'confetti';
-        piece.textContent = ['💖', '💕', '🌸', '✨', '💗'][Math.floor(Math.random() * 5)];
-        piece.style.left = Math.random() * 100 + 'vw';
-        piece.style.animationDelay = Math.random() * 1.2 + 's';
-        piece.style.fontSize = (16 + Math.random() * 18) + 'px';
-        document.body.appendChild(piece);
-        setTimeout(() => piece.remove(), 4500);
-      }
+    document.getElementById('yes').addEventListener('click',()=>{
+      document.getElementById('question').style.display='none';
+      document.getElementById('success').style.display='block';
+      document.getElementById('footer').style.display='none';
+    });
+    document.getElementById('no').addEventListener('click',()=>{
+      document.getElementById('question').style.display='none';
+      document.getElementById('declined').style.display='block';
+      document.getElementById('footer').style.display='none';
     });
   </script>
 </body>
