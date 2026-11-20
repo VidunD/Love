@@ -21,6 +21,14 @@
     .glow { position:fixed; width:340px; height:340px; border-radius:50%; background:#9d1830; filter:blur(120px); opacity:.16; pointer-events:none; }
     .glow.one { top:-190px; left:-100px; } .glow.two { right:-170px; bottom:-190px; }
     .sparks { position:fixed; inset:0; overflow:hidden; pointer-events:none; }
+    .ornament { position:fixed; width:clamp(58px,10vw,112px); height:auto; fill:none; stroke:#e35a70; stroke-width:1.25; opacity:.52; filter:drop-shadow(0 0 9px rgba(227,90,112,.45)); pointer-events:none; }
+    .ornament.heart { top:8%; left:7%; animation:float 6s ease-in-out infinite; }
+    .ornament.rose { right:6%; bottom:8%; width:clamp(72px,12vw,132px); animation:float 7s ease-in-out infinite reverse; }
+    .ornament.butterfly { top:15%; right:12%; width:clamp(44px,7vw,76px); animation:flutter 5s ease-in-out infinite; }
+    @keyframes float { 50% { transform:translateY(-13px) rotate(5deg); opacity:.78; } }
+    @keyframes flutter { 0%,100% { transform:translateY(0) rotate(-8deg) scale(.96); } 50% { transform:translateY(-12px) rotate(8deg) scale(1.04); } }
+    .buttons { min-height:58px; position:relative; align-items:center; }
+    #no { touch-action:manipulation; will-change:transform; }
     .spark { position:absolute; bottom:-40px; color:#c83a53; opacity:.4; animation:rise linear infinite; }
     @keyframes rise { to { transform:translateY(-115vh) rotate(35deg); opacity:0; } }
     .card {
@@ -60,6 +68,9 @@
 <body>
   <div class="glow one"></div><div class="glow two"></div>
   <div class="sparks" id="sparks" aria-hidden="true"></div>
+  <svg class="ornament heart" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 82S12 59 12 32C12 10 40 5 50 27 60 5 88 10 88 32 88 59 50 82 50 82Z"/><path d="M50 68C35 56 25 45 25 32M50 68C65 56 75 45 75 32"/></svg>
+  <svg class="ornament butterfly" viewBox="0 0 100 80" aria-hidden="true"><path d="M49 39C25 2 2 10 12 39c6 18 25 16 37 5M51 39C75 2 98 10 88 39c-6 18-25 16-37 5M50 35V67M50 38C39 23 40 14 47 9M50 38C61 23 60 14 53 9M50 48c-12 17-23 18-28 9M50 48c12 17 23 18 28 9"/></svg>
+  <svg class="ornament rose" viewBox="0 0 100 140" aria-hidden="true"><path d="M50 51C20 48 25 12 50 18c25-6 30 30 0 33Zm0 0C28 36 43 4 62 21c19 18-1 35-12 30Zm0 0C18 67 5 39 28 30c19-7 27 12 22 21Zm0 0c32 16 45-12 22-21-19-7-27 12-22 21ZM50 53v72M50 87c-22-24-35-10-29 3 7 12 22 7 29-3Zm0 16c22-24 35-10 29 3-7 12-22 7-29-3Z"/></svg>
   <main class="card">
     <section id="question">
       <div class="mark" aria-hidden="true">🖤</div>
@@ -112,7 +123,27 @@
       document.getElementById('success').style.display='block';
       document.getElementById('footer').style.display='none';
     });
-    document.getElementById('no').addEventListener('click',()=>{
+    const noButton = document.getElementById('no');
+    let dodgeCount = 0;
+    const dodge = (event) => {
+      if (dodgeCount >= 5) return;
+      if (event.cancelable) event.preventDefault();
+      const mobile = window.matchMedia('(max-width: 600px)').matches || navigator.maxTouchPoints > 0;
+      const maxX = mobile ? 42 : 135;
+      const maxY = mobile ? 86 : 58;
+      const dx = Math.round((Math.random() * 2 - 1) * maxX);
+      const dy = Math.round((Math.random() * 2 - 1) * maxY);
+      noButton.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+      dodgeCount++;
+      if (dodgeCount === 5) {
+        noButton.style.transform = 'translate(0,0)';
+        noButton.textContent = 'Not this time — you can say no';
+        noButton.title = 'Tap to politely decline';
+      }
+    };
+    noButton.addEventListener('pointerenter', dodge);
+    noButton.addEventListener('touchstart', dodge, { passive:false });
+    noButton.addEventListener('click',()=>{
       document.getElementById('question').style.display='none';
       document.getElementById('declined').style.display='block';
       document.getElementById('footer').style.display='none';
